@@ -7,7 +7,7 @@
                 <p class="text-gray-500 dark:text-gray-400">Sign in to access your account</p>
             </div>
             <div class="m-7">
-              <?php echo $this->Flash->render('danger');  ?>
+              <?php echo $this->Flash->render('danger');?>
               <?php echo $this->Form->create('User', array(
                     'inputDefaults' => array(
                         'label' => false, 
@@ -20,7 +20,6 @@
                     <div class="mb-6">
                         <div class="flex justify-between mb-2">
                             <label for="password" class="text-sm text-gray-600 dark:text-gray-400">Password</label>
-                           
                         </div>
                         <?php echo $this->Form->input('password', array('class' => 'w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500', 'placeholder' => 'Password')); ?>
                     </div>
