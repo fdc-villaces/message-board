@@ -5,7 +5,7 @@ App::uses('BlowfishPasswordHasher', 'Controller/Component/Auth');
 class User extends AppModel {
     public $validate = array(
         'name' => array(
-            'rule' => array('lengthBetween', 6, 20),
+            'rule' => array('lengthBetween', 6, 50),
             'message' => 'Name should be at least 8 chars long'
         ),
         'email' => array(
@@ -27,6 +27,14 @@ class User extends AppModel {
                 'rule'      => array('validate_password'),
                 'message'   => 'The password you entered do not match' 
             )
+        ),
+        'contact_no' => array(
+            'rule' => array('lengthBetween', 6, 50),
+            'message' => 'Contact no should be atleast 6 or more characters'
+        ),
+        'address' => array(
+            'rule' => array('lengthBetween', 6, 50),
+            'message' => 'Address no should be atleast 6 or more characters'
         ),
         'image' => array(
             'rule' => array(
