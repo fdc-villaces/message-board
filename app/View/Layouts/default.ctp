@@ -35,13 +35,13 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		echo $this->fetch('script');
 		echo $this->Html->css('https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css');
 		echo $this->Html->css('https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css');
-		
+		echo $this->Html->css('https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css');
 		echo $this->Html->script('https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js');
 		echo $this->Html->script('https://code.jquery.com/ui/1.12.1/jquery-ui.js');
+		echo $this->Html->script('https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js');     
 	?>
 </head>
 <body>
-	
 	<nav class="bg-gray-800">
 	  <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
 	    <div class="relative flex items-center justify-between h-16">
@@ -71,26 +71,12 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 	      </div>
 	      <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
 	        <div class="flex-shrink-0 flex items-center">
-	          <svg
-              class="w-6 h-6 text-white"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
-              ></path>
-            </svg>
+	          
             <div class="ml-2 font-bold text-2xl text-white">QuickChat</div>
 	        </div>
 	        <div class="hidden sm:block sm:ml-6">
 	          <div class="flex space-x-4">
 	            <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-	            <a href="#" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
 	            <?php                        
                     echo $this->Html->link(      
                         "Messages",
@@ -102,6 +88,13 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
                     echo $this->Html->link(      
                         "Profile",
                         array('controller' => 'users', 'action' => 'profile'),
+                        array('escape' => false, 'class' => 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium')                    
+                    ); 
+                ?>
+                 <?php                        
+                    echo $this->Html->link(      
+                        "Compose",
+                        array('controller' => 'messages', 'action' => 'create'),
                         array('escape' => false, 'class' => 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium')                    
                     ); 
                 ?>
@@ -149,9 +142,13 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 	    </div>
 	  </div>
 	  </nav>
-	  <main class="w-full">
-	  	<?php echo $this->fetch('content'); ?>
-	  </main>
+
+  	<main class="w-full">
+  		<?php echo $this->fetch('content'); ?>
+  	</main>
+  
+
+
 
 </body>
 </html>

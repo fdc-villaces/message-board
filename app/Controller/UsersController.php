@@ -61,9 +61,34 @@ class UsersController extends AppController{
         );
     }
     public function profile(){
+    	$this->loadModel('User');
+        $users = $this->User->find('all');
+        $this->set('users', $users);
+    }
+    public function searchUser(){
+    	$result = array();
+        if($this->request->is('get')) {
+            $term = $this->request->query['userName'];
+            $users = $this->User->find('all', array(
+                'conditions' => array(
+                    'User.name LIKE' => '%'.$term.'%'
+                )
+            ));
 
+            $result = array();
+            foreach($users as $key => $user) {
+                $result[$key]['id'] = (int) $user['User']['id'];
+                $result[$key]['text'] = $user['User']['name'];
+            }
+        }
+        
+        echo json_encode($result);
+        exit;
     }
    public function edit() {
+   		$this->loadModel('User');
+        $users = $this->User->find('all');
+       
         if ($this->request->is('post')) {         
             $data = array();   
             $this->User->set($this->request->data);  
@@ -125,5 +150,6 @@ class UsersController extends AppController{
                 );            
             } 
         }
+         $this->set('users', $users);
     }
 }
