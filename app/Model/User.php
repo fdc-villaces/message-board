@@ -46,6 +46,12 @@ class User extends AppModel {
             'required' => false
         )
     );
+    // public $hasMany = array(
+    //     'Relation' => array(
+    //         'className' => 'Relation',
+    //         'foreignKey' => 'sender_id'
+    //     )
+    // );
     public function validate_password() {
         return $this->data['User']['password'] === $this->data['User']['confirm_password'];
     }

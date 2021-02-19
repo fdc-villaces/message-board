@@ -2,34 +2,10 @@
     
 class RelationsController extends AppController {
     public function list($count = 10) {
-        $authId = $this->Auth->user('id');          
-        $perpage = 10;   
+        $user_id = $this->Auth->user('id');          
+        $perPage = 10;   
 
         $this->paginate = array('Relation' => array(
-            'fields' => array(
-                'Message.*',
-                'Relation.*',
-                'Sender.name as sender_name',
-                'Sender.id as sender_id',
-                'Sender.image as sender_image',
-                'Receiver.name as receiver_name',
-                'Receiver.id as receiver_id',
-                'Receiver.image as receiver_image'
-            ), 
-            'conditions' => array(
-                "Relation.id IN 
-                (SELECT
-                    MAX(r2.id)
-                    FROM relations as r2
-                    LEFT JOIN messages as m2
-                    ON m2.relation_id = r2.id
-                    WHERE (m2.status != 'deleted') AND (r2.sender_id = {$authId} OR r2.receiver_id = {$authId})
-                    GROUP BY
-                        LEAST(sender_id, receiver_id),
-                        GREATEST(sender_id, receiver_id))",
-            ),
-            'order' => 'Message.created_at DESC',
-            'limit' => $count,
             'joins' => array(      
                 array(
                     'type' => 'LEFT',
@@ -40,21 +16,42 @@ class RelationsController extends AppController {
                 array(
                     'type' => 'LEFT',
                     'table' => 'users',
-                    'alias' => 'Sender',
-                    'conditions' => 'Sender.id = Relation.sender_id'
+                    'alias' => 'User',
+                    'conditions' => 'User.id = Relation.sender_id'
                 ),
                 array(
                     'type' => 'LEFT',
                     'table' => 'users',
-                    'alias' => 'Receiver',
-                    'conditions' => 'Receiver.id = Relation.receiver_id'
+                    'alias' => 'Recepient',
+                    'conditions' => 'Recepient.id = Relation.receiver_id'
                 )
-            )
+            ),
+            'fields' => array(
+                'Message.*',
+                'Relation.*',
+                'User.name as user_name',
+                'User.id as user_id',
+                'User.image as user_image',
+                'Recepient.name as recepient_name',
+                'Recepient.id as recepient_id',
+                'Recepient.image as recepient_image'
+            ), 
+            'conditions' => array(
+                "Relation.id IN 
+                (SELECT MAX(relationTable.id) FROM relations as relationTable LEFT JOIN messages as messageTable ON messageTable.relation_id = relationTable.id WHERE (messageTable.status != 'deleted') AND (relationTable.sender_id = {$user_id} OR relationTable.receiver_id = {$user_id}) GROUP BY
+                        LEAST(sender_id, receiver_id),
+                        GREATEST(sender_id, receiver_id))",
+                ),
+            'order' => 'Message.created DESC',
+            'limit' => $count, 
         ));
 
-        $messages = $this->paginate('Relation'); 
-        
+        $messages = $this->paginate('Relation');
+       
         $this->layout = false;
-        $this->set(compact('messages', 'count', 'perpage'));
+        
+        // echo pr($messages);exit;
+
+        $this->set(compact('count', 'messages', 'perPage'));
     }
 }
