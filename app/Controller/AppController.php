@@ -52,11 +52,12 @@ class AppController extends Controller {
                     )                   
                 )
             )
+
         )
     );
 
     public function beforeFilter() {
-        parent::beforeFilter();
+       $this->Auth->allow('register', 'logout');
         date_default_timezone_set('Asia/Manila');
     }
 }

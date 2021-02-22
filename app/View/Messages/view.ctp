@@ -12,7 +12,14 @@
 
          <div class="flex flex-col leading-tight">
             <div class="text-lg md:text-2xl mt-1 flex items-center">
-               <span class="text-gray-700 mr-3"><?php echo ucwords($user['User']['name']); ?></span>
+              <?php 
+                  echo $this->Html->link(
+                     $user['User']['name'],
+                      array('controller' => 'users', 'action' => 'other_profile', $user['User']['id']),
+                      array('class' => 'text-gray-700 mr-3 cursor-pointer')
+                  );
+              ?>
+             <!--   <span class="text-gray-700 mr-3"><?php echo ucwords($user['User']['name']); ?></span> -->
                <span class="text-green-500">
                   <svg width="10" height="10">
                      <circle cx="5" cy="5" r="5" fill="currentColor"></circle>
@@ -23,37 +30,23 @@
          </div>
       </div>
       <div class="flex items-center space-x-2">
-         <button type="button" class="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
-               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-            </svg>
-         </button>
-         <button type="button" class="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
-               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-            </svg>
-         </button>
-         <button type="button" class="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
-               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
-            </svg>
-         </button>
+         <?php 
+              echo $this->Html->link(
+                 'Back',
+                  array('controller' => 'messages', 'action' => 'all_message'),
+                  array('class' => 'inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-700 focus:outline-none text-lg font-semibold cursor-pointer')
+              );
+          ?>
+        <!--  <button type="button" class="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-700 focus:outline-none text-lg font-semibold">
+            Back
+         </button> -->
       </div>
    </div>
-  <div id="message-card" class="flex flex-col space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch relative z-10">
+  <div id="message-card" class="flex flex-col space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch relative z-10 h-screen">
     <!-- message card render here -->
    
   </div>
-  <div class="flex justify-center items-center relative">
-
-    <?php if ($this->Paginator->hasNext()) : ?>
-      <button onclick="seeMore(<?php echo $count + $perPage; ?>)" class="bg-blue-500 px-6 py-2 focus:outline-none tracking-wide inline-block text-sm text-white rounded-full absolute mx-auto justify-center">See more
-        <svg class="h-4 w-4 inline-block ml-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-      </svg>
-      </button>
-     <?php endif; ?>
-  </div>
+  
    <div class="border-t-2 border-gray-200 px-4 pt-4 mb-2 sm:mb-0">
 
       <div class="relative flex">
@@ -98,7 +91,7 @@
 
 <script>
   $(document).ready(function(){
-   
+
     let user_id = "<?php echo $user['User']['id']; ?>";
     let count = "<?php echo $count; ?>";
 
@@ -111,9 +104,9 @@
         to_id: ''
     }
 
-    //  setInterval(function() {
-    //     getMsg(user_id, count)
-    // }, 3000);
+     setInterval(function() {
+        getMsg(user_id, count)
+    }, 3000);
 
 
     $('#replyMsg').click(function() {
@@ -144,7 +137,7 @@
   function scrollSmoothToBottom (id) {
      var div = document.getElementById(id);
      $('#' + id).animate({
-        scrollTop: div.scrollHeight - div.clientHeight
+        scrollTop: 0
      }, 500);
   }
     function getMsg(id, count){
@@ -154,22 +147,35 @@
           'type': "get",
           'url': url,
           evalScripts: true,
-          success: function (data, status) {  
-              // $('.loading').fadeOut('fast', function() {                
+          success: function (data, status) {                          
                   $('#message-card').html(data);
-              // })
           }
       });
     }
 
- function seeMore(count) {
+  function seeMore(count) {
         scrollSmoothToBottom('message-card');
         let user_id = "<?php echo $user['User']['id']; ?>";
         $('#message-card').html('');
-        // $('.loading').fadeIn();
         getMsg(user_id, count);
     }	
 
+function deleteSingleMsg(id) {
+    let url = "<?php echo $this->Html->url(array('controller' => 'messages','action' => 'deleteSingleMsg')); ?>";
+    if (!confirm('Are you sure that you want to delete this message?')) {
+        e.preventDefault();
+    } else {
+        $.ajax({
+            'type': "post",
+            'url': url,
+            evalScripts: true,
+            data:{"id": id},
+            success: function (data, status) { 
+                $('#msg_id_'+id).closest('div').fadeOut();          
+            }
+        });
+    }     
+}
 
 </script>
 

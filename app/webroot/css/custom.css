@@ -5,6 +5,6 @@
 	margin-top: 2px;
 	font-size: 14px;
 }
-.custom-input{
-	
+html{
+	transition: all 1500ms ease-in-out;
 }

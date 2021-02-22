@@ -6,11 +6,6 @@ class Message extends AppModel {
             'Message' => 'Please enter your message.'
         )
     );
-   //   public $belongsTo = array(
-	  //  'Relation' => array(
-	  //   'className' => 'Relation',
-	  //   'foreignKey' => 'id'
-	  //  ),
-	  // );
+ 
 
 }

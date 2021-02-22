@@ -39,15 +39,18 @@ class RelationsController extends AppController {
             'conditions' => array(
                 "Relation.id IN 
                 (SELECT MAX(relationTable.id) FROM relations as relationTable LEFT JOIN messages as messageTable ON messageTable.relation_id = relationTable.id WHERE (messageTable.status != 'deleted') AND (relationTable.sender_id = {$user_id} OR relationTable.receiver_id = {$user_id}) GROUP BY
-                        LEAST(sender_id, receiver_id),
                         GREATEST(sender_id, receiver_id))",
                 ),
-            'order' => 'Message.created DESC',
+            'order' => 'Message.id ASC',
             'limit' => $count, 
         ));
 
-        $messages = $this->paginate('Relation');
+        // SELECT `Message`.*, `Relation`.*, `User`.`name` AS `user_name`, `User`.`id` AS `user_id`, `User`.`image` AS `user_image`, `Recepient`.`name` AS `recepient_name`, `Recepient`.`id` AS `recepient_id`, `Recepient`.`image` AS `recepient_image` FROM `message_app_db`.`relations` AS `Relation` LEFT JOIN `message_app_db`.`messages` AS `Message` ON (`Message`.`relation_id` = `Relation`.`id`) LEFT JOIN `message_app_db`.`users` AS `User` ON (`User`.`id` = `Relation`.`sender_id`) LEFT JOIN `message_app_db`.`users` AS `Recepient` ON (`Recepient`.`id` = `Relation`.`receiver_id`) WHERE `Relation`.`id` IN (SELECT MAX(`relationTable`.`id`) FROM relations as relationTable LEFT JOIN messages as messageTable ON `messageTable`.`relation_id` = `relationTable`.`id` WHERES (`messageTable`.`status` != 'deleted') AND (`relationTable`.`sender_id` = 59 OR `relationTable`.`receiver_id` = 59) GROUP BY LEAST(sender_id, receiver_id), GREATEST(sender_id, receiver_id)) ORDER BY `Message`.`created` ASC LIMIT 10
        
+
+     
+        $messages = $this->paginate('Relation');
+      // echo pr($messages);exit;
         $this->layout = false;
         
         // echo pr($messages);exit;

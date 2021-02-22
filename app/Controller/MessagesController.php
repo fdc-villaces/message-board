@@ -36,12 +36,14 @@ class MessagesController extends AppController{
 
             {
                	//store message data with corresponding relation_id from relation table
+
                 $authId = $this->Auth->user('id');
+
                 $this->request->data['Relation']['sender_id'] = $this->Auth->user('id');
 
                 $this->Relation->save($this->request->data['Relation']);
 
-                
+                $this->request->data['Message']['status'] = 'active';
                 $this->request->data['Message']['relation_id'] = $this->Relation->id;
                 $this->Message->save($this->request->data['Message']);
      
@@ -52,7 +54,7 @@ class MessagesController extends AppController{
         }
     
     }
-    public function get_user_msg($id = null, $count = null){
+    public function get_user_msg($id = null, $count = 10){
     	// id = 59
     	// user = 60
     	$this->layout = false;
@@ -78,7 +80,7 @@ class MessagesController extends AppController{
             ),
             // 60 59
             // 60 59
-            'order' => 'Message.created DESC',
+            'order' => 'Message.id DESC',
             'limit' => $count,
             'joins' => array(
                 array(
@@ -103,7 +105,7 @@ class MessagesController extends AppController{
         );
 
         $messages = $this->Paginator->paginate();
-      
+      	
         $this->set(compact('messages', 'count', 'id', 'perPage'));
     }
 
@@ -128,8 +130,10 @@ class MessagesController extends AppController{
 
     }
      public function delete() {
+
         $authId = $this->Auth->user('id');   
         $id = $this->request->data['id']; 
+        // echo $id;exit;
         if ($this->request->is('post')) {
             // update status to deleted
             $this->Message->updateAll(
@@ -141,12 +145,23 @@ class MessagesController extends AppController{
                     WHERE (receiver_id = {$id} && sender_id = {$authId}) 
                         || (receiver_id = {$authId} && sender_id = {$id}))"
                 )
-            );     
-              
-        } else {
-            // code if not deleted
-        }
+            );               
+        } 
+        $data = $this->Message->query("SELECT id 
+                    from relations 
+                    WHERE (receiver_id = {$id} && sender_id = {$authId}) 
+                        || (receiver_id = {$authId} && sender_id = {$id})");
+        echo pr($data);exit;
         exit;
+    }
+    public function deleteSingleMsg(){
+    	$id = $this->request->data['id'];
+
+    	$this->Message->updateAll(
+            array('status' => '"deleted"',),
+            array('id' => $id)
+        ); 
+         exit;    
     }
 
     public function replyMsg(){
@@ -165,7 +180,9 @@ class MessagesController extends AppController{
             );
 
             $this->Relation->save($this->request->data);
+
             $this->request->data['Message']['relation_id'] = $this->Relation->id;
+            $this->request->data['Message']['status'] = 'active';
             $this->Message->save($this->request->data);
 
             echo json_encode(array('success' => true));
