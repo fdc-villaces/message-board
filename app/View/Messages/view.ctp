@@ -27,10 +27,10 @@
       </div>
       <div class="flex items-center space-x-2">
          <?php 
-              echo $this->Html->link(
-                 'Back',
-                  array('controller' => 'messages', 'action' => 'all_message'),
-                  array('class' => 'inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-700 focus:outline-none text-lg font-semibold cursor-pointer'));
+            echo $this->Html->link(
+               'Back',
+                array('controller' => 'messages', 'action' => 'all_message'),
+                array('class' => 'inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-700 focus:outline-none text-lg font-semibold cursor-pointer'));
           ?>     
       </div>
    </div>

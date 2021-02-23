@@ -23,9 +23,7 @@
                 )
             ); 
         ?>
-        <button
-          class="absolute flex items-center justify-center h-full w-12 right-0 top-0 text-gray-400 hover:text-gray-600"
-        >
+        <button class="absolute flex items-center justify-center h-full w-12 right-0 top-0 text-gray-400 hover:text-gray-600">
           <svg
             class="w-6 h-6"
             fill="none"
@@ -45,9 +43,9 @@
     </div>
     <div class="ml-4">
       <?php $options = array(
-                            'label' => 'Send',
-                            'class' => 'flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-5 py-2 flex-shrink-0',
-                        ); ?>
+                      'label' => 'Send',
+                      'class' => 'flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-5 py-2 flex-shrink-0'); 
+        ?>
       <?php echo $this->Form->end($options); ?>
     </div>
   </div>        
