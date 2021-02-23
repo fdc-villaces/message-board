@@ -1,7 +1,7 @@
 <?php if(isset($messages) && !empty($messages)) : ?>
   <?php foreach($messages as $key => $message) : ?>
     <?php if(AuthComponent::user('id') == $message['Relation']['sender_id']) : ?>
-      <div id="msg_id_<?php echo $message['Message']['id']; ?>" class="chat-message order-<?php
+      <div id="msg-id-<?php echo $message['Message']['id']; ?>" class="chat-message order-<?php
         if($key == 0) 
           echo "10 mt-4";
         else if($key== 1)
@@ -44,7 +44,7 @@
          </div>
       </div>
     <?php else : ?>
-      <div id="msg_id_<?php echo $message['Message']['id']; ?>" class="chat-message order-<?php
+      <div id="msg-id-<?php echo $message['Message']['id']; ?>" class="chat-message order-<?php
       if($key == 0)
         echo "10 mt-4";
       else if($key== 1)

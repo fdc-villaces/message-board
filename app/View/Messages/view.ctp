@@ -38,7 +38,7 @@
   </div>
     <div class="border-t-2 border-gray-200 px-4 pt-4 mb-2 sm:mb-0">
       <div class="relative flex">
-         <input type="text" id="message_id" name="message" placeholder="Write Something" class="w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-gray-200 rounded-full py-3">
+         <input type="text" id="message-id" name="message" placeholder="Write Something" class="w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-gray-200 rounded-full py-3">
          <div class="absolute right-0 items-center inset-y-0 hidden sm:flex">           
             <input type="hidden" id="to_id" value="<?php echo $user['User']['id']; ?>"></input>  
             <button id="replyMsg" type="button" class="inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-400 focus:outline-none">
@@ -91,7 +91,7 @@ setInterval(function() {
 
 $('#replyMsg').click(function() {
 let url = "<?php echo $this->Html->url(array('controller' => 'messages','action' => 'replyMsg')); ?>";
-FORM.message = $('#message_id').val();
+FORM.message = $('#message-id').val();
 FORM.to_id = $('#to_id').val();
 if(FORM.message != "") {
   $.ajax({
@@ -104,7 +104,7 @@ if(FORM.message != "") {
           if(data.success) {
               getMsg(user_id, count)         
           }
-          $('#message_id').val("")
+          $('#message-id').val("")
       }
   });
 } else {
@@ -148,7 +148,7 @@ function deleteSingleMsg(id) {
           evalScripts: true,
           data:{"id": id},
           success: function (data, status) { 
-              $('#msg_id_'+id).closest('div').fadeOut();          
+              $('#msg-id-'+id).closest('div').fadeOut();          
           }
       });
   }     
