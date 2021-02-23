@@ -1,7 +1,6 @@
 <div class="w-8/12 mx-auto rounded-lg bg-white shadow p-5 mt-8">
 	<h1 class="text-center text-2xl font-semibold">All Messages</h1>
-	<div class="message-list">
-		
+	<div class="message-list">		
 	</div>
 </div>
 <script>
@@ -17,9 +16,7 @@ function getAllMsg(){
         'url': url,
         evalScripts: true,
         success: function (data, status) { 
-            // $('.loading').fadeOut('fast', function() {                
                 $('.message-list').html(data);
-            // })
         }
     });
 }
@@ -42,7 +39,6 @@ function deleteMessage(id) {
 }
 function paginate(count) {
     $('.message-list').html('');
-    // $('.loading').fadeIn();
     getAllMsg(count)
 }
 </script>

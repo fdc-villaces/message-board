@@ -12,30 +12,25 @@
                                 $image, 
                                 array('class' => 'h-auto w-full mx-auto bg-white')
                             );                  
-                           ?>
-                       
+                        ?>      
                     </div>
                     <h1 class="text-gray-900 font-bold text-xl leading-8 my-4"><?php echo ucwords($user['User']['name']); ?>
-
-                       <!--  <span class="" title="">
-                          <i class="fas fa-award" aria-hidden="true"></i> Winner
-                        </span> -->
                     </h1>
-                    <p class="text-sm text-gray-500 hover:text-gray-600 leading-normal mt-3"><?php 
-                    if($user['User']['hobby'] == null || empty($user['User']['hobby'])){
-                        echo "This user is rather lazy and has yet to leave a hobby";
-                    }                
-                    else{
-                        echo ucwords($user['User']['hobby']); 
-                        }
-                        ?></p>
+                    <p class="text-sm text-gray-500 hover:text-gray-600 leading-normal mt-3">
+                        <?php 
+                            if ($user['User']['hobby'] == null || empty($user['User']['hobby'])){
+                                echo "This user is rather lazy and has yet to leave a hobby";
+                            }                
+                            else {
+                                echo ucwords($user['User']['hobby']); 
+                            }
+                        ?>   
+                    </p>
                   
-                    <ul
-                        class="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm">
+                    <ul class="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm">
                         <li class="flex items-center py-3">
                             <span>Last login</span>
-                            <span class="ml-auto ">
-                                    <?php echo date('F j, Y h:m A', strtotime($user['User']['last_login_time'])); ?></span>
+                            <span class="ml-auto "> <?php echo date('F j, Y h:m A', strtotime($user['User']['last_login_time'])); ?></span>
                         </li>
                         <li class="flex items-center py-3">
                             <span>Member since</span>
@@ -44,8 +39,7 @@
                     </ul>
                 </div>
                 <!-- End of profile card -->
-                <div class="my-4"></div>
-               
+                <div class="my-4"></div>     
             </div>
             <!-- Right Side -->
             <div class="w-full md:w-8/12 mx-2 h-64">
@@ -72,43 +66,43 @@
                             <div class="grid grid-cols-2">
                                 <div class="px-4 py-2 font-semibold">Gender</div>
                                 <div class="px-4 py-2">
-                                     <?php
-                                        if($user['User']['gender'] == '1'){
+                                    <?php
+                                        if ($user['User']['gender'] == '1') {
                                             echo 'Male';
                                         }
-                                        else if($user['User']['gender'] == '2'){
+                                        else if ($user['User']['gender'] == '2') {
                                             echo 'Female';
                                         }
-                                        else{
+                                        else {
                                             echo '<span class="text-gray-600">----------------------</span>';
                                         }
-                                       ?>    
+                                    ?>    
                                 </div>
                             </div>
                             <div class="grid grid-cols-2">
                                 <div class="px-4 py-2 font-semibold">Contact No.</div>
                                 <div class="px-4 py-2">
                                     <?php
-                                    if($user['User']['contact_no'] == null || empty($user['User']['contact_no'])){
-                                        echo '<span class="text-gray-600">----------------------</span>';
-                                    }
-                                    else{
-                                        echo ucwords($user['User']['contact_no']);
-                                    }
-                                       ?>    
+                                        if ($user['User']['contact_no'] == null || empty($user['User']['contact_no'])) {
+                                            echo '<span class="text-gray-600">----------------------</span>';
+                                        }
+                                        else {
+                                            echo ucwords($user['User']['contact_no']);
+                                        }
+                                    ?>    
                                 </div>
                             </div>
                             <div class="grid grid-cols-2">
                                 <div class="px-4 py-2 font-semibold">Address</div>
                                 <div class="px-4 py-2">
-                                     <?php
-                                        if($user['User']['contact_no'] == null || empty($user['User']['contact_no'])){
+                                    <?php
+                                        if ($user['User']['contact_no'] == null || empty($user['User']['contact_no'])) { 
                                             echo '<span class="text-gray-600">----------------------</span>';
                                         }
-                                        else{
+                                        else {
                                             echo ucwords($user['User']['contact_no']);
                                         }
-                                       ?>    
+                                    ?>    
                                 </div>
                             </div>
                             
@@ -122,25 +116,22 @@
                                 <div class="px-4 py-2 font-semibold">Birthday</div>
                                 <div class="px-4 py-2">
                                     <?php
-                                    if($user['User']['birthdate'] == null || empty($user['User']['birthdate'])){
-                                        echo '<span class="text-gray-600">----------------------</span>';
-                                    }
-                                    else{
-                                        echo ucwords($user['User']['birthdate']);
-                                    }
-                                       ?>    
+                                        if ($user['User']['birthdate'] == null || empty($user['User']['birthdate'])) {
+                                            echo '<span class="text-gray-600">----------------------</span>';
+                                        }
+                                        else {
+                                            echo ucwords($user['User']['birthdate']);
+                                        }
+                                    ?>    
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- End of about section -->
-
                 <div class="my-4"></div>
-
                 <!-- Experience and education -->
                 <div class="bg-white p-3 shadow-sm rounded-sm">
-
                     <div class="grid grid-cols-2">
                         <div>
                             <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8 mb-3">

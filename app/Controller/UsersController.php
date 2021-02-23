@@ -2,6 +2,7 @@
 App::uses('AppController', 'Controller');
 class UsersController extends AppController{
 	public $helpers = array('Js' => array('Jquery'), 'Paginator');
+
 	public function beforeFilter(){
 		parent::beforeFilter();
 		$this->Auth->allow('register', 'logout');
@@ -10,7 +11,7 @@ class UsersController extends AppController{
 	public function login(){
         if ($this->Auth->loggedIn()) {
             $this->redirect(
-                    array('controller' => 'messages', 'action' => 'all_message')
+                    array('controller' => 'messages', 'action' => 'list')
                 );
         }
         else{
@@ -19,52 +20,47 @@ class UsersController extends AppController{
                     $this->User->id = $this->Auth->user('id');
                     $this->User->saveField('last_login_time', date('Y-m-d H:i:s'));
                     $this->redirect(
-                        array('controller' => 'messages', 'action' => 'all_message')
+                        array('controller' => 'messages', 'action' => 'list')
                     );
                     $this->Session->setFlash(__('User successfully login.'));
                 } else {
-                     // echo "failed";exit;         
                    $this->Flash->danger('Incorrect email or password', array(
                         'key' => 'danger'
                     ));
                 }
             }
         }
-		
 	}
 	public function register(){
-         if ($this->Auth->loggedIn()) {
+        if ($this->Auth->loggedIn()) {
             $this->redirect(
-                    array('controller' => 'messages', 'action' => 'all_message')
+                    array('controller' => 'messages', 'action' => 'list')
                 );
          }
-         else{
-            if($this->request->is('post')){
-                if($this->User->save($this->request->data)){
-                    if($this->Auth->login()){
-                        $this->User->id = $this->Auth->user('id');
-                        
+        else {
+            if ($this->request->is('post')) {
+                if ($this->User->save($this->request->data)) {
+                    if ($this->Auth->login()){
+                        $this->User->id = $this->Auth->user('id');  
                         $this->User->saveField('last_login_time', date('Y-m-d H:i:s'));
-
                         $this->redirect(
                             array('action' => 'thankYou')
                         );
                         $this->Session->setFlash(__('User successfully login.'));
                     }
-                    else{
+                    else {
                         $this->Session->setFlash(__('Register was unsuccessful'));
                     }
                 }
-                else{               
+                else {               
                     $this->Flash->danger('Unable to register', array(
                         'key' => 'danger'
                     ));
                 }
             }
-         }
-		
+        }
 	}
-	public function thankYou(){
+	public function thanks() {
 
 	}
 	public function logout() {
@@ -73,21 +69,20 @@ class UsersController extends AppController{
             array('action' => 'login')
         );
     }
-    public function profile(){
+    public function profile() {
     	$this->loadModel('User');
         $users = $this->User->find('all');
         $this->set('users', $users);
     }
-     public function other_profile($id){
-         $user = $this->User->find('first', array(
+    public function otherProfile($id) {
+        $user = $this->User->find('first', array(
             'conditions' => array(
                 'id' => $id
             )
         ));
-
         $this->set('user', $user);
     }
-    public function searchUser(){
+    public function searchUser() {
     	$result = array();
         if($this->request->is('get')) {
             $term = $this->request->query['userName'];
@@ -103,7 +98,6 @@ class UsersController extends AppController{
                 $result[$key]['text'] = $user['User']['name'];
             }
         }
-        
         echo json_encode($result);
         exit;
     }
@@ -134,24 +128,19 @@ class UsersController extends AppController{
                 $hobby = $this->request->data['User']['hobby'];
                 $data['hobby'] = "'$hobby'";
             }
-           
             if($this->request->data['User']['image'] == '') {
                 unset($this->User->validate['image']);
             }
-            // remove image validation if no image found
             if (empty($this->request->data['User']['image']['tmp_name'])) {
                 unset($this->User->validate['image']);
             }            
-            // form validation
             if ($this->User->validates()) { 
                 $name = $this->request->data['User']['name'];         
                 
                 $data['name'] = "'$name'";
          
-                // check if post image is present
                 if (!empty($this->request->data['User']['image']['tmp_name'])
                     && is_uploaded_file($this->request->data['User']['image']['tmp_name'])) {
-                    
                     $temp = explode('.', $this->request->data['User']['image']['name']);
                     $newFileName = round(microtime(true)).'.'.end($temp);
                     move_uploaded_file(
@@ -160,18 +149,16 @@ class UsersController extends AppController{
                     );   
                     $data['image'] = "'$newFileName'";
                 } 
-                // updating data
                 $this->User->updateAll(
                     $data,
                     array('id' => $this->Auth->user('id'))
                 );
-                // resave data to session 
                 $this->Session->write('Auth', $this->User->read(null, $this->Auth->User('id')));   
                 $this->redirect(
                     array('action' => 'profile')                    
                 );            
             } 
         }
-         $this->set('users', $users);
+        $this->set('users', $users);
     }
 }

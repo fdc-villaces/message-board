@@ -12,31 +12,27 @@
                                 $image, 
                                 array('class' => 'h-auto w-full mx-auto bg-white')
                             );                  
-                           ?>
-                       
+                        ?>   
                     </div>
                     <h1 class="text-gray-900 font-bold text-xl leading-8 my-4"><?php echo ucwords(AuthComponent::user('name')); ?>
-
-                         <?php                        
+                        <?php                        
                             echo $this->Html->link(      
                                 'Edit',
                                 array('controller' => 'users', 'action' => 'edit'),
                                 array('escape' => false, 'class' =>'tracking-wider text-white bg-blue-500 px-4 py-1 text-sm rounded leading-loose mx-2 font-semibold')                    
                             ); 
                         ?>
-                       <!--  <span class="" title="">
-                          <i class="fas fa-award" aria-hidden="true"></i> Winner
-                        </span> -->
                     </h1>
-                    <p class="text-sm text-gray-500 hover:text-gray-600 leading-normal mt-3"><?php 
-                    if(AuthComponent::user('hobby') == null || empty(AuthComponent::user('hobby'))){
-                        echo "This user is rather lazy and has yet to leave a hobby";
-                    }                
-                    else{
-                        echo ucwords(AuthComponent::user('hobby')); 
-                        }
-                        ?></p>
-                  
+                    <p class="text-sm text-gray-500 hover:text-gray-600 leading-normal mt-3">
+                        <?php 
+                            if (AuthComponent::user('hobby') == null || empty(AuthComponent::user('hobby'))) {
+                                echo "This user is rather lazy and has yet to leave a hobby";
+                            }                
+                            else {
+                                echo ucwords(AuthComponent::user('hobby')); 
+                            }
+                        ?>
+                    </p> 
                     <ul
                         class="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm">
                         <li class="flex items-center py-3">
