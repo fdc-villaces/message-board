@@ -1,11 +1,12 @@
 <?php 
-class MessagesController extends AppController{
-	public $components = array('Paginator');
-    public $pageLimit = 10;
+class MessagesController extends AppController {
 
-	public function list() { 
-	 	$count = $this->pageLimit;
-	 	$this->loadModel('User');
+public $components = array('Paginator');
+public $pageLimit = 10;
+
+    public function list() { 
+     	$count = $this->pageLimit;
+     	$this->loadModel('User');
         $users = $this->User->find('all');
         $this->set(compact('users', 'count'));   
     }
@@ -27,7 +28,7 @@ class MessagesController extends AppController{
           
             }            
         }
-    
+
     }
     public function getUserMsg($id = null, $count = 10) {
     	$this->layout = false;
@@ -55,31 +56,31 @@ class MessagesController extends AppController{
             'limit' => $count,
             'joins' => array(
                 array(
-                    'type' => 'LEFT',
-                    'table' => 'relations',
-                    'alias' => 'Relation',
-                    'conditions' => 'Relation.id = Message.relation_id'
-                ),
-                array(
-                    'type' => 'LEFT',
-                    'table' => 'users',
-                    'alias' => 'User',
-                    'conditions' => 'User.id = Relation.sender_id'
-                ),
-                array(
-                    'type' => 'LEFT',
-                    'table' => 'users',
-                    'alias' => 'Recepient',
-                    'conditions' => 'Recepient.id = Relation.receiver_id'
-                )
+                'type' => 'LEFT',
+                'table' => 'relations',
+                'alias' => 'Relation',
+                'conditions' => 'Relation.id = Message.relation_id'
+            ),
+            array(
+                'type' => 'LEFT',
+                'table' => 'users',
+                'alias' => 'User',
+                'conditions' => 'User.id = Relation.sender_id'
+            ),
+            array(
+                'type' => 'LEFT',
+                'table' => 'users',
+                'alias' => 'Recepient',
+                'conditions' => 'Recepient.id = Relation.receiver_id'
             )
-        );
+        )
+    );
 
-        $messages = $this->Paginator->paginate();	
-        $this->set(compact('messages', 'count', 'id', 'perPage'));
-    }
+    $messages = $this->Paginator->paginate();	
+    $this->set(compact('messages', 'count', 'id', 'perPage'));
+    }   
 
-    public function view($id){
+    public function view($id) {
     	
     	$perPage = $this->pageLimit;
     	$this->loadModel('User');
@@ -117,7 +118,8 @@ class MessagesController extends AppController{
                     || (receiver_id = {$authId} && sender_id = {$id})");
         exit;
     }
-    public function deleteSingleMsg(){
+
+    public function deleteSingleMsg() {
     	$id = $this->request->data['id'];
     	$this->Message->updateAll(
             array('status' => '"deleted"',),
@@ -126,12 +128,12 @@ class MessagesController extends AppController{
          exit;    
     }
 
-    public function replyMsg(){
+    public function replyMsg() {
     	$this->loadModel('Relation');
     	if ($this->request->is('post')) {  		
-		$user_id = $this->Auth->user('id'); 
+    	$user_id = $this->Auth->user('id'); 
 
-		$this->request->data = array(
+    	$this->request->data = array(
             'Message' => array(
                 'msg_content' => $this->request->data['message']
             ),

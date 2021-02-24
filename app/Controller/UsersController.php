@@ -1,20 +1,18 @@
 <?php 
 App::uses('AppController', 'Controller');
-class UsersController extends AppController{
-	public $helpers = array('Js' => array('Jquery'), 'Paginator');
-
-	public function beforeFilter(){
-		parent::beforeFilter();
-		$this->Auth->allow('register', 'logout');
-	}
-
-	public function login(){
+class UsersController extends AppController {
+public $helpers = array('Js' => array('Jquery'), 'Paginator');
+    public function beforeFilter() {
+        parent::beforeFilter();
+        $this->Auth->allow('register', 'logout');
+    }
+    public function login() {
         if ($this->Auth->loggedIn()) {
             $this->redirect(
                     array('controller' => 'messages', 'action' => 'list')
                 );
         }
-        else{
+        else {
             if ($this->request->is('post')) {        
                 if ($this->Auth->login()) {      
                     $this->User->id = $this->Auth->user('id');
@@ -30,17 +28,17 @@ class UsersController extends AppController{
                 }
             }
         }
-	}
-	public function register(){
+    }
+    public function register() {
         if ($this->Auth->loggedIn()) {
             $this->redirect(
                     array('controller' => 'messages', 'action' => 'list')
                 );
-         }
+        }
         else {
             if ($this->request->is('post')) {
                 if ($this->User->save($this->request->data)) {
-                    if ($this->Auth->login()){
+                    if ($this->Auth->login()) {
                         $this->User->id = $this->Auth->user('id');  
                         $this->User->saveField('last_login_time', date('Y-m-d H:i:s'));
                         $this->redirect(
@@ -59,18 +57,18 @@ class UsersController extends AppController{
                 }
             }
         }
-	}
-	public function thanks() {
+    }
+    public function thanks() {
 
-	}
-	public function logout() {
+    }
+    public function logout() {
         $this->Auth->logout();
         $this->redirect(
             array('action' => 'login')
         );
     }
     public function profile() {
-    	$this->loadModel('User');
+        $this->loadModel('User');
         $users = $this->User->find('all');
         $this->set('users', $users);
     }
@@ -83,7 +81,7 @@ class UsersController extends AppController{
         $this->set('user', $user);
     }
     public function searchUser() {
-    	$result = array();
+        $result = array();
         if($this->request->is('get')) {
             $term = $this->request->query['userName'];
             $users = $this->User->find('all', array(
@@ -101,8 +99,8 @@ class UsersController extends AppController{
         echo json_encode($result);
         exit;
     }
-   public function edit() {
-   		$this->loadModel('User');
+    public function edit() {
+        $this->loadModel('User');
         $users = $this->User->find('all');
        
         if ($this->request->is('post')) {         
@@ -160,5 +158,5 @@ class UsersController extends AppController{
             } 
         }
         $this->set('users', $users);
-    }
+    }  
 }
