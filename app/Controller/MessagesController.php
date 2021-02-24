@@ -34,54 +34,53 @@ public $pageLimit = 10;
     	$this->layout = false;
         $auth_id = $this->Auth->user('id');
         $perPage = $this->pageLimit;
-        $this->Paginator->settings = array(
-            'fields' => array(
-                'Message.*',
-                'Relation.*',
-                'User.name as user_name',
-                'User.id as user_id',
-                'User.image as user_image',
-                'Recepient.name as recepient_name',
-                'Recepient.id as recepient_id',
-                'Recepient.image as recepient_image'
-            ),
-            'conditions' => array(
-                'OR' => array(
-                    array('Relation.sender_id' => $auth_id, 'Relation.receiver_id' => $id),
-                    array('Relation.receiver_id' => $auth_id, 'Relation.sender_id' => $id)
+            $this->Paginator->settings = array(
+                'fields' => array(
+                    'Message.*',
+                    'Relation.*',
+                    'User.name as user_name',
+                    'User.id as user_id',
+                    'User.image as user_image',
+                    'Recepient.name as recepient_name',
+                    'Recepient.id as recepient_id',
+                    'Recepient.image as recepient_image'
                 ),
-                array('status !=' => 'deleted')
-            ),
-            'order' => 'Message.id DESC',
-            'limit' => $count,
-            'joins' => array(
+                'conditions' => array(
+                    'OR' => array(
+                        array('Relation.sender_id' => $auth_id, 'Relation.receiver_id' => $id),
+                        array('Relation.receiver_id' => $auth_id, 'Relation.sender_id' => $id)
+                    ),
+                    array('status !=' => 'deleted')
+                ),
+                'order' => 'Message.id DESC',
+                'limit' => $count,
+                'joins' => array(
+                    array(
+                    'type' => 'LEFT',
+                    'table' => 'relations',
+                    'alias' => 'Relation',
+                    'conditions' => 'Relation.id = Message.relation_id'
+                ),
                 array(
-                'type' => 'LEFT',
-                'table' => 'relations',
-                'alias' => 'Relation',
-                'conditions' => 'Relation.id = Message.relation_id'
-            ),
-            array(
-                'type' => 'LEFT',
-                'table' => 'users',
-                'alias' => 'User',
-                'conditions' => 'User.id = Relation.sender_id'
-            ),
-            array(
-                'type' => 'LEFT',
-                'table' => 'users',
-                'alias' => 'Recepient',
-                'conditions' => 'Recepient.id = Relation.receiver_id'
+                    'type' => 'LEFT',
+                    'table' => 'users',
+                    'alias' => 'User',
+                    'conditions' => 'User.id = Relation.sender_id'
+                ),
+                array(
+                    'type' => 'LEFT',
+                    'table' => 'users',
+                    'alias' => 'Recepient',
+                    'conditions' => 'Recepient.id = Relation.receiver_id'
+                )
             )
-        )
-    );
+        );
 
-    $messages = $this->Paginator->paginate();	
-    $this->set(compact('messages', 'count', 'id', 'perPage'));
+        $messages = $this->Paginator->paginate();	
+        $this->set(compact('messages', 'count', 'id', 'perPage'));
     }   
 
-    public function view($id) {
-    	
+    public function view($id) {   	
     	$perPage = $this->pageLimit;
     	$this->loadModel('User');
         $count = $this->pageLimit;

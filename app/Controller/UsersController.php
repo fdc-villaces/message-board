@@ -2,6 +2,7 @@
 App::uses('AppController', 'Controller');
 class UsersController extends AppController {
 public $helpers = array('Js' => array('Jquery'), 'Paginator');
+
     public function beforeFilter() {
         parent::beforeFilter();
         $this->Auth->allow('register', 'logout');
